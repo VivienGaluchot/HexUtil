@@ -1,7 +1,7 @@
 package data;
 
 public class Tools {
-	private static String digits = "0123456789ABCDEF";
+	private static String digits = "0123456789abcdef";
 
 	public static String hexToString(byte[] data) {
 		StringBuffer buf = new StringBuffer();
@@ -15,7 +15,7 @@ public class Tools {
 	}
 
 	public static void stringToHex(String hexNumber, byte[] buffer, int start, int size) throws IllegalArgumentException {
-		hexNumber = hexNumber.toUpperCase();
+		hexNumber = hexNumber.toLowerCase();
 		int length = hexNumber.length();
 		if (length % 2 != 0)
 			hexNumber = '0' + hexNumber;

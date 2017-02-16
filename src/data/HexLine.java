@@ -49,7 +49,7 @@ public class HexLine {
 	}
 
 	public short getAddress() {
-		return (short) ((bytes[1] << 8) + bytes[2]);
+		return (short) ((Byte.toUnsignedInt(bytes[1]) << 8) + Byte.toUnsignedInt(bytes[2]));
 	}
 
 	public void setType(byte type) {
