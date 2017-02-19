@@ -4,52 +4,52 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Stream;
 
-public class HexFile {
+import data.processor.ConnexityFinder;
+import data.processor.CrcChecker;
+import data.processor.Printer;
 
-	private List<HexLine> lines;
+public class HexFile {
+	ArrayList<LineProcessor> processors;
 
 	public HexFile() {
-		lines = new ArrayList<>();
+		processors = new ArrayList<>();
 	}
-	
-	public void loadFromFile(String fileName){
+
+	public void addProcessor(LineProcessor pr) {
+		processors.add(pr);
+	}
+
+	public void processFile(String fileName) {
 		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-			stream.forEach(this::addLine);
+			stream.forEach(this::process);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void addLine(String line) {
-		lines.add(new HexLine(line));
-	}
-
-	public List<HexLine> getLines() {
-		return Collections.unmodifiableList(lines);
-	}
-
-	public boolean isValid() {
-		for (HexLine l : lines)
-			if (!l.isValid())
-				return false;
-		return true;
-	}
-
-	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		for (HexLine l : lines)
-			buf.append(l + "\n");
-		return buf.toString();
+	private void process(String strLine) {
+		HexLine line = new HexLine(strLine);
+		for (LineProcessor pr : processors)
+			pr.processLine(line);
 	}
 
 	public static void main(String[] args) {
 		HexFile x = new HexFile();
-		x.loadFromFile("test.hex");
-		System.out.println(x);
-		System.out.println(x.isValid());
+		x.addProcessor(new Printer());
+
+		CrcChecker checker = new CrcChecker();
+		checker.init();
+		x.addProcessor(checker);
+
+		ConnexityFinder cf = new ConnexityFinder();
+		cf.init();
+		x.addProcessor(cf);
+
+		x.processFile("test.hex");
+
+		System.out.println(checker.getMsg());
+		cf.displayConnexities();
 	}
 }
