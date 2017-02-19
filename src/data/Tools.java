@@ -14,7 +14,8 @@ public class Tools {
 		return buf.toString();
 	}
 
-	public static void stringToHex(String hexNumber, byte[] buffer, int start, int size) throws IllegalArgumentException {
+	public static void stringToHex(String hexNumber, byte[] buffer, int start, int size)
+			throws IllegalArgumentException {
 		hexNumber = hexNumber.toLowerCase();
 		int length = hexNumber.length();
 		if (length % 2 != 0)

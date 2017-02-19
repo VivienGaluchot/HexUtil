@@ -98,6 +98,7 @@ public class HexLine {
 		return sum == 0;
 	}
 
+	@Override
 	public String toString() {
 		return ":" + Tools.hexToString(bytes);
 	}
