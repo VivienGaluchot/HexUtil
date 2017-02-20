@@ -6,7 +6,7 @@ import data.processor.CrcChecker;
 
 public class HexConnexity {
 	public static void main(String[] args) {
-		if (args.length < 1) {
+		if (args.length < 1 || (args[0] == "-onlySize" && args.length < 2)) {
 			System.out.println("Usage : HexConnextity [-onlySize] [fileName]");
 			return;
 		}

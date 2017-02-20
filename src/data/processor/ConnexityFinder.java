@@ -61,7 +61,7 @@ public class ConnexityFinder implements LineProcessor {
 	public int getTotalConnextitiesSize() {
 		int size = 0;
 		for (AddressBlock a : blocks)
-			size += a.getSize();
+			size += a.getAlignedSize();
 		return size;
 	}
 
@@ -83,7 +83,7 @@ public class ConnexityFinder implements LineProcessor {
 		ConnexityFinder cf = new ConnexityFinder();
 		cf.init();
 		cf.insert(new AddressBlock(0, 3));
-		cf.insert(new AddressBlock(4, 7));
+		cf.insert(new AddressBlock(6, 7));
 		cf.insert(new AddressBlock(8, 12));
 		cf.insert(new AddressBlock(14, 15));
 		cf.displayConnexities();
