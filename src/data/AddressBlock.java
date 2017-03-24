@@ -10,24 +10,14 @@ public class AddressBlock {
 	}
 
 	public AddressBlock(HexLine line, HexLine relativeAddress) {
-		int relative = 0;
-		if (relativeAddress != null) {
-			byte[] data = relativeAddress.getData();
-			relative = (Byte.toUnsignedInt(data[0]) << 8) + Byte.toUnsignedInt(data[1]);
-		}
-		Short address = line.getAddress();
-		int trueAddress = (relative << 16) + Short.toUnsignedInt(address);
-
-		int size = Byte.toUnsignedInt(line.getSize());
-
+		int trueAddress = line.getAddressRelativeTo(relativeAddress);
+		int size = line.getIntSize();
 		if (Integer.compareUnsigned(trueAddress + size, trueAddress) > 0) {
 			start = trueAddress;
 			end = trueAddress + size - 1;
 		} else {
 			System.out.println("Debordement des int");
 		}
-		if (start == 0xffff8000)
-			System.out.println("x");
 	}
 
 	public boolean isConnex(AddressBlock b) {
@@ -35,7 +25,7 @@ public class AddressBlock {
 				|| (!equalUnsigned(start, 0) && equalUnsigned(b.end, start - 1)))
 			return true;
 
-		// supperposition
+		// superposition
 		if (Integer.compareUnsigned(end, b.start) > 0 && Integer.compareUnsigned(b.end, start) > 0)
 			return true;
 

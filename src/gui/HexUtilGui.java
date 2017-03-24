@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -26,7 +28,7 @@ public class HexUtilGui implements ActionListener {
 	private static String ACTION_QUIT = "action_quit";
 
 	private JFrame mainFrame;
-	private HexDisplayPanel hexDisplayPanel;
+	private HexListDisplay hexDisplayPanel;
 
 	public static void main(String[] args) {
 		HexUtilGui x = new HexUtilGui();
@@ -58,11 +60,18 @@ public class HexUtilGui implements ActionListener {
 
 		// MapPanem
 		JPanel panel = new JPanel();
+		panel.setFocusable(true);
 		panel.setMinimumSize(new Dimension(150, 150));
 		panel.setPreferredSize(new Dimension(300, 300));
+		panel.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				panel.requestFocusInWindow();
+			}
+		});
 
 		// DisplayPanel
-		hexDisplayPanel = new HexDisplayPanel();
+		hexDisplayPanel = new HexListDisplay();
 		JScrollPane scroll = new JScrollPane(hexDisplayPanel);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

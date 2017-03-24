@@ -42,6 +42,10 @@ public class HexLine {
 	public byte getSize() {
 		return bytes[0];
 	}
+	
+	public int getIntSize(){
+		return Byte.toUnsignedInt(getSize());
+	}
 
 	public void setAddress(short address) {
 		bytes[1] = (byte) (address >> 8);
@@ -50,6 +54,14 @@ public class HexLine {
 
 	public short getAddress() {
 		return (short) ((Byte.toUnsignedInt(bytes[1]) << 8) + Byte.toUnsignedInt(bytes[2]));
+	}
+	
+	public int getAddressRelativeTo(HexLine relativeAddressLine){
+		byte[] data = relativeAddressLine.getData();
+		int relative = (Byte.toUnsignedInt(data[0]) << 8) + Byte.toUnsignedInt(data[1]);
+		Short address = getAddress();
+		int trueAddress = (relative << 16) + Short.toUnsignedInt(address);
+		return trueAddress;
 	}
 
 	public void setType(byte type) {

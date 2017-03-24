@@ -74,6 +74,7 @@ public class ConnexityFinder implements LineProcessor {
 			insert(c);
 		} else if (l.getType() == 0x01) {
 			// TODO
+			System.out.println("Unsupported line " + l);
 		} else {
 			System.out.println("Unsupported line " + l);
 		}
